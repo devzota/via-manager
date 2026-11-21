@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<!-- ZTTeam MetaManager Dashboard -->
+<html class="h-full dark" lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MetaManager - Bảng điều khiển quản lý tài khoản</title>
+
+<!-- Google Fonts: Mulish & JetBrains Mono with explicit weights -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+<!-- Alpine.js CDN -->
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        /** 4 custom brand colors */
+        colors: {
+          primary: "#2563eb",
+          live: "#10b981",
+          checkpoint: "#f59e0b",
+          die: "#ef4444"
+        },
+        fontFamily: {
+          sans: ["Mulish", "sans-serif"],
+          mono: ["'JetBrains Mono'", "monospace"]
+        }
+      }
+    }
+  }
+</script>
+</head>
+
+<body class="h-full font-sans text-slate-800 dark:text-slate-100 bg-slate-100 dark:bg-slate-950 flex transition-colors duration-200">
+
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-slate-900 shadow-sm flex flex-col py-6 z-50 transition-colors duration-200">
+    <div class="px-6 mb-8 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-extrabold shadow-md shadow-primary/20 overflow-hidden">
+            <img class="w-6 h-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiUJM4t10Hs35bxF_r7_X498wTtrbvZe_FK7jGzvnV6TY_pinKTfs0_NtTlz_TF59v04dgfAdngffHXTM6budQOpis_AWUNz-x72F_7aU24fsTMmER9S_zl4tMDnYy0aVqJTiAIDFTzgRHxB2zrfx21tq8V0Px1LT33xM3W3XNJ5ICXh7IW2werzVD0RqKAJwWAqYsIaqOXdNcan-SDBniRGSDF79XfdvAW_THXNrzT3ulSiJScLKEWg" alt="MetaManager Logo"/>
+        </div>
+        <div>
+            <div class="text-lg font-extrabold text-slate-900 dark:text-white tracking-tight leading-none">MetaManager</div>
+            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-1">Enterprise Admin</p>
+        </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="flex-1 overflow-y-auto px-3">
+        <p class="px-3 mb-2 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Menu chính</p>
+        <ul class="space-y-1">
+            <li>
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-primary/10 text-primary dark:text-blue-400 font-bold transition-all" href="#">
+                    <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                    Bảng điều khiển
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition-all" href="#">
+                    <span class="material-symbols-outlined text-[20px]">manage_accounts</span>
+                    Tài khoản
+                    <span class="ml-auto bg-primary/10 text-primary dark:text-blue-400 text-xs font-bold px-2 py-0.5 rounded-full">1,248</span>
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition-all" href="#">
+                    <span class="material-symbols-outlined text-[20px]">groups</span>
+                    Nhóm
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition-all" href="#">
+                    <span class="material-symbols-outlined text-[20px]">vpn_lock</span>
+                    Cài đặt Proxy
+                </a>
+            </li>
+        </ul>
+
+        <p class="px-3 mt-6 mb-2 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Hệ thống</p>
+        <ul class="space-y-1">
+            <li>
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition-all" href="#">
+                    <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+                    Nhật ký
+                    <span class="ml-auto w-2 h-2 rounded-full bg-live animate-pulse"></span>
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold transition-all" href="#">
+                    <span class="material-symbols-outlined text-[20px]">settings</span>
+                    Cài đặt
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Sidebar Footer -->
+    <div class="px-4 mt-auto pt-4 space-y-3">
+        <!-- System Status Box -->
+        <div class="px-4 py-3 rounded-xl bg-live/10 dark:bg-live/15">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-live animate-pulse"></span>
+                <span class="text-xs font-bold text-live">Hệ thống hoạt động</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">5 worker • 23 nhiệm vụ chờ</p>
+        </div>
+
+        <button class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white py-2.5 px-4 rounded-xl shadow-lg shadow-primary/25 font-bold text-sm transition-all active:scale-[0.98]" onclick="document.getElementById('addAccountModal').classList.remove('hidden')">
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            Thêm tài khoản
+        </button>
+    </div>
+</nav>
+
+<!-- Main Content Wrapper -->
+<div class="ml-64 flex-1 flex flex-col min-h-screen">
+    <!-- TopNavBar -->
+    <header class="sticky top-0 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-40 shadow-sm transition-colors duration-200">
+        <div class="max-w-7xl mx-auto px-8 h-20 flex justify-between items-center gap-6">
+            <!-- Page Title with Badge -->
+            <div class="flex items-center gap-3">
+                <h1 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight whitespace-nowrap">Quản lý tài khoản</h1>
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-primary/10 text-primary dark:text-blue-400">1,248</span>
+            </div>
+
+            <!-- Harmonized Search Bar (Zero borders) -->
+            <div class="relative flex-1 max-w-md mx-4">
+                <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+                <input class="w-full h-11 pl-11 pr-14 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200/70 dark:hover:bg-slate-800/80 focus:bg-white dark:focus:bg-slate-800 rounded-xl text-sm border-0 focus:border-0 focus:outline-none focus:ring-2 focus:ring-primary/20 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 transition-all shadow-inner" placeholder="Tìm kiếm tài khoản, UID, proxy..." type="text"/>
+                <kbd class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400 bg-white dark:bg-slate-700 px-2 py-0.5 rounded-md shadow-sm">Ctrl+K</kbd>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <!-- Theme Toggle Button -->
+                <button id="ztteamThemeToggle" onclick="ztteamToggleTheme()" title="Chuyển chế độ giao diện" class="w-11 h-11 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer active:scale-95">
+                    <span id="ztteamThemeIcon" class="material-symbols-outlined text-[22px]">light_mode</span>
+                </button>
+
+                <!-- Notification Bell -->
+                <button title="Thông báo" class="w-11 h-11 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white transition-all relative active:scale-95">
+                    <span class="material-symbols-outlined text-[22px]">notifications</span>
+                    <span class="absolute -top-0.5 -right-0.5 w-5 h-5 bg-die text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-sm">3</span>
+                </button>
+
+                <!-- User Profile Dropdown (Alpine.js) -->
+                <div class="relative" x-data="{ ztteamUserOpen: false }">
+                    <button @click="ztteamUserOpen = !ztteamUserOpen" @click.outside="ztteamUserOpen = false" class="flex items-center gap-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 pl-2 pr-3.5 py-2 rounded-xl cursor-pointer transition-all active:scale-[0.98]">
+                        <div class="w-8 h-8 rounded-lg overflow-hidden shadow-sm ring-2 ring-primary/20">
+                            <img alt="Admin Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFTKUSLhVbxK9rQkT16vUOsEu45pYea5m7OmTUOHR6J1sjwz9DBWh5otk6U9l4g_atgtLFKdPoi0yU9UTk2jQQh-Bupy8cYxEMQWa1jSJapqIAGksf4ZimiTTUkL_QFDHFHXUezQ8DAmn6hX95WrufZXpdMtynuCTyeK41Z0c4CJE_c-h4z0JrOLOnTf1RitY-gTCY4dBbO3ILToUmxQ01pqo2PbJEfEdftbyR40P0ATXpnR6MJODSdQ"/>
+                        </div>
+                        <div class="flex flex-col text-left">
+                            <span class="text-xs font-bold text-slate-900 dark:text-white leading-none">Admin User</span>
+                            <span class="text-[10px] text-slate-400 font-medium leading-none mt-1">Super Admin</span>
+                        </div>
+                        <span class="material-symbols-outlined text-[16px] text-slate-400 ml-1 transition-transform duration-200" :class="{ 'rotate-180': ztteamUserOpen }">expand_more</span>
+                    </button>
+
+                    <!-- User Dropdown Menu -->
+                    <div x-show="ztteamUserOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95 -translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-95 -translate-y-1" class="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-900 rounded-2xl shadow-xl py-2 z-50 transition-colors" style="display: none;">
+                        <div class="px-4 py-2.5 mb-1 bg-slate-50 dark:bg-slate-800/50 rounded-xl mx-2">
+                            <p class="text-xs font-bold text-slate-900 dark:text-white">Admin User</p>
+                            <p class="text-[11px] text-slate-400">admin@ztteam.site</p>
+                        </div>
+                        <a href="#" class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">person</span>
+                            Hồ sơ cá nhân
+                        </a>
+                        <a href="#" class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">tune</span>
+                            Tùy chọn quản trị
+                        </a>
+                        <a href="#" class="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-die hover:bg-die/10 transition-colors mt-1">
+                            <span class="material-symbols-outlined text-[18px]">logout</span>
+                            Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Canvas -->
+    <main class="pt-6 px-8 pb-12 max-w-7xl mx-auto w-full flex-1">
+        <!-- Stats Row -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-7">
+            <!-- Card: Tổng tài khoản -->
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm flex flex-col gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-md">
+                <div class="flex justify-between items-start">
+                    <span class="text-xs font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">Tổng tài khoản</span>
+                    <div class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[20px]">monitoring</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <span class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">1,248</span>
+                    <div class="flex items-center gap-1 text-live text-xs font-bold">
+                        <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                        <span>+12% tháng này</span>
+                    </div>
+                </div>
+                <div class="mt-1 h-10 w-full rounded-lg relative overflow-hidden">
+                    <svg class="absolute bottom-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 120 24">
+                        <defs><linearGradient id="ztteamGradTotal" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2563eb" stop-opacity="0.25"/><stop offset="100%" stop-color="#2563eb" stop-opacity="0.02"/></linearGradient></defs>
+                        <path d="M0 24 L0 14 L15 16 L30 10 L45 13 L60 7 L75 11 L90 4 L105 8 L120 3 L120 24 Z" fill="url(#ztteamGradTotal)"></path>
+                        <path d="M0 14 L15 16 L30 10 L45 13 L60 7 L75 11 L90 4 L105 8 L120 3" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <circle cx="120" cy="3" r="3" fill="#2563eb"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Card: Đang hoạt động -->
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm flex flex-col gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-md">
+                <div class="flex justify-between items-start">
+                    <span class="text-xs font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">Đang hoạt động</span>
+                    <div class="w-9 h-9 rounded-xl bg-live/10 text-live flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[20px]">check_circle</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <span class="text-3xl font-extrabold tracking-tight text-live">892</span>
+                    <div class="flex items-center gap-1 text-live text-xs font-bold">
+                        <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                        <span>+5% tuần này</span>
+                    </div>
+                </div>
+                <div class="mt-1 h-10 w-full rounded-lg relative overflow-hidden">
+                    <svg class="absolute bottom-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 120 24">
+                        <defs><linearGradient id="ztteamGradLive" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/><stop offset="100%" stop-color="#10b981" stop-opacity="0.02"/></linearGradient></defs>
+                        <path d="M0 24 L0 18 L15 15 L30 19 L45 11 L60 14 L75 8 L90 12 L105 5 L120 2 L120 24 Z" fill="url(#ztteamGradLive)"></path>
+                        <path d="M0 18 L15 15 L30 19 L45 11 L60 14 L75 8 L90 12 L105 5 L120 2" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <circle cx="120" cy="2" r="3" fill="#10b981"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Card: Checkpoint -->
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm flex flex-col gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-md">
+                <div class="flex justify-between items-start">
+                    <span class="text-xs font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">Checkpoint</span>
+                    <div class="w-9 h-9 rounded-xl bg-checkpoint/10 text-checkpoint flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[20px]">warning</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <span class="text-3xl font-extrabold tracking-tight text-checkpoint">154</span>
+                    <div class="flex items-center gap-1 text-die text-xs font-bold">
+                        <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                        <span>+2% hôm nay</span>
+                    </div>
+                </div>
+                <div class="mt-1 h-10 w-full rounded-lg relative overflow-hidden">
+                    <svg class="absolute bottom-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 120 24">
+                        <defs><linearGradient id="ztteamGradCp" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f59e0b" stop-opacity="0.25"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0.02"/></linearGradient></defs>
+                        <path d="M0 24 L0 20 L15 18 L30 19 L45 16 L60 17 L75 13 L90 15 L105 11 L120 12 L120 24 Z" fill="url(#ztteamGradCp)"></path>
+                        <path d="M0 20 L15 18 L30 19 L45 16 L60 17 L75 13 L90 15 L105 11 L120 12" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <circle cx="120" cy="12" r="3" fill="#f59e0b"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Card: Đã chết -->
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm flex flex-col gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-md">
+                <div class="flex justify-between items-start">
+                    <span class="text-xs font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">Đã chết</span>
+                    <div class="w-9 h-9 rounded-xl bg-die/10 text-die flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[20px]">error</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                    <span class="text-3xl font-extrabold tracking-tight text-die">202</span>
+                    <div class="flex items-center gap-1 text-live text-xs font-bold">
+                        <span class="material-symbols-outlined text-[14px]">trending_down</span>
+                        <span>-8% tháng này</span>
+                    </div>
+                </div>
+                <div class="mt-1 h-10 w-full rounded-lg relative overflow-hidden">
+                    <svg class="absolute bottom-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 120 24">
+                        <defs><linearGradient id="ztteamGradDie" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ef4444" stop-opacity="0.2"/><stop offset="100%" stop-color="#ef4444" stop-opacity="0.02"/></linearGradient></defs>
+                        <path d="M0 24 L0 6 L15 10 L30 8 L45 14 L60 11 L75 16 L90 13 L105 19 L120 17 L120 24 Z" fill="url(#ztteamGradDie)"></path>
+                        <path d="M0 6 L15 10 L30 8 L45 14 L60 11 L75 16 L90 13 L105 19 L120 17" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <circle cx="120" cy="17" r="3" fill="#ef4444"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Container (Borderless, pure background contrast) -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm flex flex-col transition-colors duration-200">
+            <!-- Table Header Toolbar -->
+            <div class="px-6 py-4 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/30 rounded-t-2xl">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">Tài khoản liên kết</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Quản lý và giám sát tất cả các tài khoản được liên kết</p>
+                </div>
+                <div class="flex gap-2">
+                    <button class="px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-semibold transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Lọc
+                    </button>
+                    <button class="px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-semibold transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">view_column</span>
+                        Cột
+                    </button>
+                    <button class="px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-semibold transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">download</span>
+                        Xuất
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Table (Zero borders, smooth hover) -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-slate-50 dark:bg-slate-800/50 text-slate-400 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
+                            <th class="py-3.5 px-4 w-12 text-center">
+                                <input class="rounded border-0 bg-slate-200 dark:bg-slate-700 text-primary focus:ring-primary/20 w-4 h-4 cursor-pointer" type="checkbox"/>
+                            </th>
+                            <th class="py-3.5 px-4">UID</th>
+                            <th class="py-3.5 px-4">Tên tài khoản</th>
+                            <th class="py-3.5 px-4">Trạng thái</th>
+                            <th class="py-3.5 px-4">Proxy</th>
+                            <th class="py-3.5 px-4">Ngày thêm</th>
+                            <th class="py-3.5 px-4">Đồng bộ cuối</th>
+                            <th class="py-3.5 px-4 text-center">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm text-slate-700 dark:text-slate-200">
+                        <!-- Row 1: Live -->
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                            <td class="py-3.5 px-4 text-center"><input class="rounded border-0 bg-slate-200 dark:bg-slate-700 text-primary focus:ring-primary/20 w-4 h-4 cursor-pointer" type="checkbox"/></td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">1000847362910</td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg bg-primary/10 text-primary dark:text-blue-400 flex items-center justify-center font-bold text-xs">TH</div>
+                                    <div>
+                                        <p class="font-semibold text-slate-900 dark:text-white leading-none">Trần Hữu Đức</p>
+                                        <p class="text-xs text-slate-400 mt-0.5">Nhóm: Marketing</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-live/10 text-live">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-live animate-pulse"></span>
+                                    Live
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">103.47.21.8:8080</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">12/10/2023</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-live"></span>
+                                    5 phút trước
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button title="Chỉnh sửa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                    <button title="Đăng nhập" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-live hover:bg-live/10 transition-all"><span class="material-symbols-outlined text-[18px]">login</span></button>
+                                    <button title="Xóa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-die hover:bg-die/10 transition-all"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                                    <!-- Alpine.js 3-dots dropdown -->
+                                    <div class="relative inline-block text-left" x-data="{ ztteamRowMenuOpen: false }">
+                                        <button @click="ztteamRowMenuOpen = !ztteamRowMenuOpen" @click.outside="ztteamRowMenuOpen = false" title="Thao tác" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                                            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                                        </button>
+                                        <div x-show="ztteamRowMenuOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-slate-900 rounded-xl shadow-xl py-1.5 z-50 transition-colors text-left" style="display: none;">
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                                Xem chi tiết
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">vpn_key</span>
+                                                Đổi Proxy
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">sync</span>
+                                                Kiểm tra Live
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                                                Sao chép UID|Pass
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-die hover:bg-die/10 transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                                                Xóa tài khoản
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 2: Checkpoint -->
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                            <td class="py-3.5 px-4 text-center"><input class="rounded border-0 bg-slate-200 dark:bg-slate-700 text-primary focus:ring-primary/20 w-4 h-4 cursor-pointer" type="checkbox"/></td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">1000847362911</td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg bg-checkpoint/10 text-checkpoint flex items-center justify-center font-bold text-xs">NL</div>
+                                    <div>
+                                        <p class="font-semibold text-slate-900 dark:text-white leading-none">Nguyễn Lan Anh</p>
+                                        <p class="text-xs text-slate-400 mt-0.5">Nhóm: Bán hàng</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-checkpoint/10 text-checkpoint">
+                                    <span class="material-symbols-outlined text-[14px]">warning</span>
+                                    Checkpoint
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">45.76.130.2:3128</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">12/10/2023</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-checkpoint"></span>
+                                    1 giờ trước
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button title="Chỉnh sửa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                    <button title="Đăng nhập" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-live hover:bg-live/10 transition-all"><span class="material-symbols-outlined text-[18px]">login</span></button>
+                                    <button title="Xóa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-die hover:bg-die/10 transition-all"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                                    <!-- Alpine.js 3-dots dropdown -->
+                                    <div class="relative inline-block text-left" x-data="{ ztteamRowMenuOpen: false }">
+                                        <button @click="ztteamRowMenuOpen = !ztteamRowMenuOpen" @click.outside="ztteamRowMenuOpen = false" title="Thao tác" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                                            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                                        </button>
+                                        <div x-show="ztteamRowMenuOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-slate-900 rounded-xl shadow-xl py-1.5 z-50 transition-colors text-left" style="display: none;">
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                                Xem chi tiết
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">vpn_key</span>
+                                                Đổi Proxy
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">sync</span>
+                                                Kiểm tra Live
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                                                Sao chép UID|Pass
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-die hover:bg-die/10 transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                                                Xóa tài khoản
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 3: Die -->
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                            <td class="py-3.5 px-4 text-center"><input class="rounded border-0 bg-slate-200 dark:bg-slate-700 text-primary focus:ring-primary/20 w-4 h-4 cursor-pointer" type="checkbox"/></td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">1000847362912</td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg bg-die/10 text-die flex items-center justify-center font-bold text-xs">VT</div>
+                                    <div>
+                                        <p class="font-semibold text-slate-900 dark:text-white leading-none">Vũ Thị Mai</p>
+                                        <p class="text-xs text-slate-400 mt-0.5">Nhóm: Hỗ trợ</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-die/10 text-die">
+                                    <span class="material-symbols-outlined text-[14px]">error</span>
+                                    Die
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">185.199.22.1:1080</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">11/10/2023</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-die"></span>
+                                    2 ngày trước
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button title="Chỉnh sửa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                    <button title="Đăng nhập" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-live hover:bg-live/10 transition-all"><span class="material-symbols-outlined text-[18px]">login</span></button>
+                                    <button title="Xóa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-die hover:bg-die/10 transition-all"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                                    <!-- Alpine.js 3-dots dropdown -->
+                                    <div class="relative inline-block text-left" x-data="{ ztteamRowMenuOpen: false }">
+                                        <button @click="ztteamRowMenuOpen = !ztteamRowMenuOpen" @click.outside="ztteamRowMenuOpen = false" title="Thao tác" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                                            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                                        </button>
+                                        <div x-show="ztteamRowMenuOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-slate-900 rounded-xl shadow-xl py-1.5 z-50 transition-colors text-left" style="display: none;">
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                                Xem chi tiết
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">vpn_key</span>
+                                                Đổi Proxy
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">sync</span>
+                                                Kiểm tra Live
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                                                Sao chép UID|Pass
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-die hover:bg-die/10 transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                                                Xóa tài khoản
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 4: Live -->
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                            <td class="py-3.5 px-4 text-center"><input class="rounded border-0 bg-slate-200 dark:bg-slate-700 text-primary focus:ring-primary/20 w-4 h-4 cursor-pointer" type="checkbox"/></td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">1000847362913</td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg bg-primary/10 text-primary dark:text-blue-400 flex items-center justify-center font-bold text-xs">ĐT</div>
+                                    <div>
+                                        <p class="font-semibold text-slate-900 dark:text-white leading-none">Đặng Tuấn Kiệt</p>
+                                        <p class="text-xs text-slate-400 mt-0.5">Nhóm: Marketing</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-live/10 text-live">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-live animate-pulse"></span>
+                                    Live
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">89.163.44.7:9090</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">10/10/2023</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-live"></span>
+                                    2 phút trước
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button title="Chỉnh sửa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                    <button title="Đăng nhập" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-live hover:bg-live/10 transition-all"><span class="material-symbols-outlined text-[18px]">login</span></button>
+                                    <button title="Xóa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-die hover:bg-die/10 transition-all"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                                    <!-- Alpine.js 3-dots dropdown -->
+                                    <div class="relative inline-block text-left" x-data="{ ztteamRowMenuOpen: false }">
+                                        <button @click="ztteamRowMenuOpen = !ztteamRowMenuOpen" @click.outside="ztteamRowMenuOpen = false" title="Thao tác" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                                            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                                        </button>
+                                        <div x-show="ztteamRowMenuOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-slate-900 rounded-xl shadow-xl py-1.5 z-50 transition-colors text-left" style="display: none;">
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                                Xem chi tiết
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">vpn_key</span>
+                                                Đổi Proxy
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">sync</span>
+                                                Kiểm tra Live
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                                                Sao chép UID|Pass
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-die hover:bg-die/10 transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                                                Xóa tài khoản
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 5: Live -->
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                            <td class="py-3.5 px-4 text-center"><input class="rounded border-0 bg-slate-200 dark:bg-slate-700 text-primary focus:ring-primary/20 w-4 h-4 cursor-pointer" type="checkbox"/></td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">1000847362914</td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg bg-primary/10 text-primary dark:text-blue-400 flex items-center justify-center font-bold text-xs">LQ</div>
+                                    <div>
+                                        <p class="font-semibold text-slate-900 dark:text-white leading-none">Lê Quốc Bảo</p>
+                                        <p class="text-xs text-slate-400 mt-0.5">Nhóm: Bán hàng</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-live/10 text-live">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-live animate-pulse"></span>
+                                    Live
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">212.83.55.4:3128</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">09/10/2023</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-live"></span>
+                                    8 phút trước
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button title="Chỉnh sửa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                    <button title="Đăng nhập" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-live hover:bg-live/10 transition-all"><span class="material-symbols-outlined text-[18px]">login</span></button>
+                                    <button title="Xóa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-die hover:bg-die/10 transition-all"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                                    <!-- Alpine.js 3-dots dropdown -->
+                                    <div class="relative inline-block text-left" x-data="{ ztteamRowMenuOpen: false }">
+                                        <button @click="ztteamRowMenuOpen = !ztteamRowMenuOpen" @click.outside="ztteamRowMenuOpen = false" title="Thao tác" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                                            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                                        </button>
+                                        <div x-show="ztteamRowMenuOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 top-full mt-1 w-44 bg-white dark:bg-slate-900 rounded-xl shadow-xl py-1.5 z-50 transition-colors text-left" style="display: none;">
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                                Xem chi tiết
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">vpn_key</span>
+                                                Đổi Proxy
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">sync</span>
+                                                Kiểm tra Live
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                                                Sao chép UID|Pass
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-die hover:bg-die/10 transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                                                Xóa tài khoản
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 6: Checkpoint -->
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                            <td class="py-3.5 px-4 text-center"><input class="rounded border-0 bg-slate-200 dark:bg-slate-700 text-primary focus:ring-primary/20 w-4 h-4 cursor-pointer" type="checkbox"/></td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">1000847362915</td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg bg-checkpoint/10 text-checkpoint flex items-center justify-center font-bold text-xs">PT</div>
+                                    <div>
+                                        <p class="font-semibold text-slate-900 dark:text-white leading-none">Phan Thanh Long</p>
+                                        <p class="text-xs text-slate-400 mt-0.5">Nhóm: Marketing</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-checkpoint/10 text-checkpoint">
+                                    <span class="material-symbols-outlined text-[14px]">warning</span>
+                                    Checkpoint
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">77.238.12.9:8888</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">08/10/2023</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-checkpoint"></span>
+                                    3 giờ trước
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button title="Chỉnh sửa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                    <button title="Đăng nhập" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-live hover:bg-live/10 transition-all"><span class="material-symbols-outlined text-[18px]">login</span></button>
+                                    <button title="Xóa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-die hover:bg-die/10 transition-all"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                                    <!-- Alpine.js 3-dots dropdown (opens upward for bottom rows) -->
+                                    <div class="relative inline-block text-left" x-data="{ ztteamRowMenuOpen: false }">
+                                        <button @click="ztteamRowMenuOpen = !ztteamRowMenuOpen" @click.outside="ztteamRowMenuOpen = false" title="Thao tác" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                                            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                                        </button>
+                                        <div x-show="ztteamRowMenuOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 bottom-full mb-1 w-44 bg-white dark:bg-slate-900 rounded-xl shadow-xl py-1.5 z-50 transition-colors text-left" style="display: none;">
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                                Xem chi tiết
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">vpn_key</span>
+                                                Đổi Proxy
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">sync</span>
+                                                Kiểm tra Live
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                                                Sao chép UID|Pass
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-die hover:bg-die/10 transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                                                Xóa tài khoản
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 7: Live -->
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                            <td class="py-3.5 px-4 text-center"><input class="rounded border-0 bg-slate-200 dark:bg-slate-700 text-primary focus:ring-primary/20 w-4 h-4 cursor-pointer" type="checkbox"/></td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">1000847362916</td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg bg-primary/10 text-primary dark:text-blue-400 flex items-center justify-center font-bold text-xs">NM</div>
+                                    <div>
+                                        <p class="font-semibold text-slate-900 dark:text-white leading-none">Ngô Minh Phương</p>
+                                        <p class="text-xs text-slate-400 mt-0.5">Nhóm: Hỗ trợ</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-live/10 text-live">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-live animate-pulse"></span>
+                                    Live
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">154.92.18.3:4145</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">07/10/2023</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-live"></span>
+                                    1 phút trước
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button title="Chỉnh sửa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                    <button title="Đăng nhập" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-live hover:bg-live/10 transition-all"><span class="material-symbols-outlined text-[18px]">login</span></button>
+                                    <button title="Xóa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-die hover:bg-die/10 transition-all"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                                    <!-- Alpine.js 3-dots dropdown (opens upward for bottom rows) -->
+                                    <div class="relative inline-block text-left" x-data="{ ztteamRowMenuOpen: false }">
+                                        <button @click="ztteamRowMenuOpen = !ztteamRowMenuOpen" @click.outside="ztteamRowMenuOpen = false" title="Thao tác" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                                            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                                        </button>
+                                        <div x-show="ztteamRowMenuOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 bottom-full mb-1 w-44 bg-white dark:bg-slate-900 rounded-xl shadow-xl py-1.5 z-50 transition-colors text-left" style="display: none;">
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                                Xem chi tiết
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">vpn_key</span>
+                                                Đổi Proxy
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">sync</span>
+                                                Kiểm tra Live
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                                                Sao chép UID|Pass
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-die hover:bg-die/10 transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                                                Xóa tài khoản
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Row 8: Die -->
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                            <td class="py-3.5 px-4 text-center"><input class="rounded border-0 bg-slate-200 dark:bg-slate-700 text-primary focus:ring-primary/20 w-4 h-4 cursor-pointer" type="checkbox"/></td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">1000847362917</td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-7 h-7 rounded-lg bg-die/10 text-die flex items-center justify-center font-bold text-xs">HV</div>
+                                    <div>
+                                        <p class="font-semibold text-slate-900 dark:text-white leading-none">Huỳnh Văn Sơn</p>
+                                        <p class="text-xs text-slate-400 mt-0.5">Nhóm: Bán hàng</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-die/10 text-die">
+                                    <span class="material-symbols-outlined text-[14px]">error</span>
+                                    Die
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-4 font-mono text-xs text-slate-500 dark:text-slate-400">91.205.30.6:1080</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">06/10/2023</td>
+                            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 text-xs">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-die"></span>
+                                    5 ngày trước
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-4">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button title="Chỉnh sửa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-primary hover:bg-primary/10 transition-all"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                    <button title="Đăng nhập" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-live hover:bg-live/10 transition-all"><span class="material-symbols-outlined text-[18px]">login</span></button>
+                                    <button title="Xóa" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-die hover:bg-die/10 transition-all"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                                    <!-- Alpine.js 3-dots dropdown (opens upward for bottom rows) -->
+                                    <div class="relative inline-block text-left" x-data="{ ztteamRowMenuOpen: false }">
+                                        <button @click="ztteamRowMenuOpen = !ztteamRowMenuOpen" @click.outside="ztteamRowMenuOpen = false" title="Thao tác" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                                            <span class="material-symbols-outlined text-[18px]">more_vert</span>
+                                        </button>
+                                        <div x-show="ztteamRowMenuOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute right-0 bottom-full mb-1 w-44 bg-white dark:bg-slate-900 rounded-xl shadow-xl py-1.5 z-50 transition-colors text-left" style="display: none;">
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                                Xem chi tiết
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">vpn_key</span>
+                                                Đổi Proxy
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">sync</span>
+                                                Kiểm tra Live
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-primary transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                                                Sao chép UID|Pass
+                                            </a>
+                                            <a href="#" class="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-die hover:bg-die/10 transition-colors">
+                                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                                                Xóa tài khoản
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Table Footer / Pagination (Borderless with Alpine.js Custom Selectbox) -->
+            <div class="px-6 py-4 bg-slate-50/50 dark:bg-slate-800/30 flex justify-between items-center text-sm text-slate-500 dark:text-slate-400 rounded-b-2xl">
+                <div class="flex items-center gap-3">
+                    <span>Hiển thị 1 - 8 của 1,248 tài khoản</span>
+                    <span class="text-slate-300 dark:text-slate-600">•</span>
+                    <!-- Alpine.js Custom Selectbox -->
+                    <div class="relative" x-data="{ ztteamPageSizeOpen: false, ztteamPageSize: '8 / trang' }">
+                        <button @click="ztteamPageSizeOpen = !ztteamPageSizeOpen" @click.outside="ztteamPageSizeOpen = false" class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all cursor-pointer shadow-sm">
+                            <span x-text="ztteamPageSize"></span>
+                            <span class="material-symbols-outlined text-[16px] text-slate-400 transition-transform duration-200" :class="{ 'rotate-180': ztteamPageSizeOpen }">expand_more</span>
+                        </button>
+                        <div x-show="ztteamPageSizeOpen" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="absolute bottom-full mb-1.5 left-0 w-32 bg-white dark:bg-slate-900 rounded-xl shadow-xl py-1 z-50 transition-colors" style="display: none;">
+                            <button @click="ztteamPageSize = '8 / trang'; ztteamPageSizeOpen = false" class="w-full text-left px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">8 / trang</button>
+                            <button @click="ztteamPageSize = '20 / trang'; ztteamPageSizeOpen = false" class="w-full text-left px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">20 / trang</button>
+                            <button @click="ztteamPageSize = '50 / trang'; ztteamPageSizeOpen = false" class="w-full text-left px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">50 / trang</button>
+                            <button @click="ztteamPageSize = '100 / trang'; ztteamPageSizeOpen = false" class="w-full text-left px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">100 / trang</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <button class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 cursor-not-allowed opacity-40" disabled="">
+                        <span class="material-symbols-outlined text-[18px]">first_page</span>
+                    </button>
+                    <button class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 cursor-not-allowed opacity-40" disabled="">
+                        <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                    </button>
+                    <button class="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center font-bold text-xs shadow-sm">1</button>
+                    <button class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-xs font-semibold transition-colors">2</button>
+                    <button class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-xs font-semibold transition-colors">3</button>
+                    <span class="px-1 text-slate-400">...</span>
+                    <button class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-xs font-semibold transition-colors">156</button>
+                    <button class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                    </button>
+                    <button class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">last_page</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Modal: Thêm tài khoản hàng loạt -->
+<div class="fixed inset-0 z-[100] hidden flex items-center justify-center" id="addAccountModal">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm" onclick="document.getElementById('addAccountModal').classList.add('hidden')"></div>
+    <!-- Modal Content -->
+    <div class="relative bg-white dark:bg-slate-900 w-full max-w-xl rounded-2xl shadow-2xl flex flex-col m-4 transition-colors duration-200">
+        <!-- Modal Header -->
+        <div class="px-6 py-5 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/30 rounded-t-2xl">
+            <div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">Thêm tài khoản hàng loạt</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Nhập danh sách tài khoản cần thêm vào hệ thống</p>
+            </div>
+            <button title="Đóng" class="w-9 h-9 rounded-xl flex items-center justify-center text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-white transition-all" onclick="document.getElementById('addAccountModal').classList.add('hidden')">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+        <!-- Modal Body -->
+        <div class="p-6">
+            <!-- Format Guide -->
+            <div class="flex items-start gap-3 bg-primary/5 dark:bg-primary/10 rounded-xl p-4 mb-5">
+                <span class="material-symbols-outlined text-primary text-[20px] mt-0.5">info</span>
+                <div class="text-xs text-slate-600 dark:text-slate-300">
+                    <p class="font-bold text-slate-900 dark:text-white mb-1">Định dạng nhập liệu:</p>
+                    <code class="bg-white dark:bg-slate-800 text-primary px-2 py-0.5 rounded font-mono text-[11px]">uid|password|2fa_secret</code>
+                    <p class="mt-1 text-slate-400">Mỗi dòng là một tài khoản. Ví dụ: <code class="bg-white dark:bg-slate-800 px-1 rounded">100012345|matkhau1|ABCDEFGH</code></p>
+                </div>
+            </div>
+            <textarea class="w-full h-48 p-4 bg-slate-100 dark:bg-slate-800 rounded-xl font-mono text-sm border-0 focus:border-0 focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none text-slate-900 dark:text-slate-100 placeholder:text-slate-400" placeholder="100012345|matkhau1|ABCDEFGH&#10;100067890|matkhau2|IJKLMNOP&#10;100011223|matkhau3|QRSTUVWX"></textarea>
+            <!-- Stats Preview -->
+            <div class="flex items-center gap-5 mt-4 text-xs text-slate-500 dark:text-slate-400">
+                <div class="flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-[16px]">format_list_numbered</span>
+                    <span>0 tài khoản</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-live font-semibold">
+                    <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                    <span>0 hợp lệ</span>
+                </div>
+                <div class="flex items-center gap-1.5 text-die font-semibold">
+                    <span class="material-symbols-outlined text-[16px]">error</span>
+                    <span>0 lỗi</span>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Footer -->
+        <div class="px-6 py-4 flex justify-end gap-3 bg-slate-50/50 dark:bg-slate-800/30 rounded-b-2xl">
+            <button class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all" onclick="document.getElementById('addAccountModal').classList.add('hidden')">
+                Hủy
+            </button>
+            <button class="px-5 py-2 bg-primary hover:bg-blue-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/25 transition-all flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">upload</span>
+                Bắt đầu thêm
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Theme Management Script -->
+<script>
+    /** ZTTeam Theme Manager */
+    function ztteamApplyTheme(theme) {
+        var html = document.documentElement;
+        var icon = document.getElementById('ztteamThemeIcon');
+        if (theme === 'dark') {
+            html.classList.add('dark');
+            if (icon) icon.textContent = 'light_mode';
+        } else {
+            html.classList.remove('dark');
+            if (icon) icon.textContent = 'dark_mode';
+        }
+    }
+
+    function ztteamToggleTheme() {
+        var isDark = document.documentElement.classList.contains('dark');
+        var newTheme = isDark ? 'light' : 'dark';
+        localStorage.setItem('ztteam_theme', newTheme);
+        ztteamApplyTheme(newTheme);
+    }
+
+    /** Initialize theme from localStorage or default to dark mode */
+    (function ztteamInitTheme() {
+        var savedTheme = localStorage.getItem('ztteam_theme');
+        if (savedTheme) {
+            ztteamApplyTheme(savedTheme);
+        } else {
+            /** Default to dark as requested */
+            ztteamApplyTheme('dark');
+        }
+    })();
+</script>
+
+</body>
+</html>

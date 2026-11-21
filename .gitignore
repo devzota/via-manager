@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Secrets & environment
+.env
+.env.*
+!.env.example
+
+# Runtime data: database, browser profiles (contains account sessions)
+backend/data/
+
+# Local test scripts containing real credentials
+backend/scratch/
+
+# Stray empty files created by mistyped commands
+backend/clear
+backend/node
+backend/npm
+backend/ztteam-via-backend@1.0.0
+
+# Logs & OS / editor files
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
